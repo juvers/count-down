@@ -93,9 +93,9 @@ export default function App() {
         </Button>
       </Container>
 
-      <p>
+      <Typography>
         {padTime(minutes)} : {padTime(seconds)}
-      </p>
+      </Typography>
     </div>
   );
 }
