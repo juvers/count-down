@@ -7,20 +7,23 @@ import Typography from "./components/Typography/Typography";
 
 import { useCountdown } from "./hooks/useCountdown";
 
-const INITIAL_VALUES = [1, 1];
+const INITIAL_VALUES = [1, 0];
 
 export default function App() {
   const isOver = () => {
     document.getElementById("audio").play();
+    alert("Done");
   };
+  const padTime = (time) => time.toString().padStart(2, "0");
 
   const {
     remainingTime: { seconds, minutes },
     setter: { setMinutes, setSeconds },
     stop,
     start,
+    restart,
     working,
-    setWorking
+    setWorking,
   } = useCountdown(INITIAL_VALUES, () => isOver());
 
   const handleStart = () => {
@@ -33,6 +36,10 @@ export default function App() {
     setWorking(false);
   };
 
+  const handleRestart = () => {
+    restart();
+    setWorking(true);
+  };
   const handleInputChange = (e, type) => {
     if (type === "minute") {
       setMinutes(!e.target.value ? "" : Number(e.target.value));
@@ -44,17 +51,20 @@ export default function App() {
 
   return (
     <div className="App">
+      <audio id="audio">
+        <source src="over.wav" type="audio/mpeg"></source>
+      </audio>
       <Container>
         <Input
           disabled={working}
-          value={minutes}
+          value={padTime(minutes)}
           name="minute"
           onChange={handleInputChange}
         />
 
         <Input
           disabled={working}
-          value={seconds}
+          value={padTime(seconds)}
           name="second"
           onChange={handleInputChange}
         />
@@ -77,7 +87,15 @@ export default function App() {
         >
           Start
         </Button>
+
+        <Button onClick={handleRestart} name="Restart">
+          Restart
+        </Button>
       </Container>
+
+      <p>
+        {padTime(minutes)} : {padTime(seconds)}
+      </p>
     </div>
   );
 }
