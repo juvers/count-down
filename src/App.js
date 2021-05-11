@@ -4,6 +4,7 @@ import Input from "./components/Input/Input";
 import Button from "./components/Button/Button";
 import Container from "./components/Container/Container";
 import Typography from "./components/Typography/Typography";
+import Audio from "./components/Audio/Audio";
 
 import { useCountdown } from "./hooks/useCountdown";
 
@@ -51,9 +52,6 @@ export default function App() {
 
   return (
     <div className="App">
-      <audio id="audio">
-        <source src="over.wav" type="audio/mpeg"></source>
-      </audio>
       <Container>
         <Input
           disabled={working}
@@ -79,7 +77,6 @@ export default function App() {
         <Button disabled={!working} onClick={handleStop} name="stop">
           Stop
         </Button>
-
         <Button
           disabled={working || (!minutes && !seconds) || (!minutes && !seconds)}
           onClick={handleStart}
@@ -87,15 +84,14 @@ export default function App() {
         >
           Start
         </Button>
-
         <Button onClick={handleRestart} name="Restart">
           Restart
         </Button>
       </Container>
-
       <Typography>
         {padTime(minutes)} : {padTime(seconds)}
       </Typography>
+      <Audio />
     </div>
   );
 }
